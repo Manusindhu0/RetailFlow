@@ -5,7 +5,7 @@
   "identifier": "com.retailflow.pos",
   "build": {
     "beforeDevCommand": "npm run dev",
-    "devUrl": "http://localhost:1420",
+    "devUrl": "http://127.0.0.1:5173",
     "beforeBuildCommand": "npm run build",
     "frontendDist": "../dist"
   },
@@ -49,10 +49,7 @@
   },
   "plugins": {
     "fs": {
-      "scope": {
-        "allow": ["$APPDATA/**", "$DESKTOP/**", "$DOWNLOAD/**"],
-        "requireLiteralLeadingDot": false
-      }
+      "requireLiteralLeadingDot": false
     },
     "shell": {
       "open": true

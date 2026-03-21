@@ -11,6 +11,7 @@ interface CartState {
   discount: number;
   customerId?: number;
   customerName?: string;
+  customerPhone?: string;
   paymentSplits: PaymentSplit[];
   activePaymentMode: PaymentMode;
 
@@ -20,7 +21,7 @@ interface CartState {
   updateQuantity: (productId: number, quantity: number) => void;
   updateItemDiscount: (productId: number, discount: number) => void;
   setDiscount: (discount: number) => void;
-  setCustomer: (id?: number, name?: string) => void;
+  setCustomer: (id?: number, name?: string, phone?: string) => void;
   setActivePaymentMode: (mode: PaymentMode) => void;
   setPaymentSplit: (mode: PaymentMode, amount: number) => void;
   clearPaymentSplits: () => void;
@@ -50,6 +51,7 @@ export const useCartStore = create<CartState>((set, get) => ({
   discount: 0,
   customerId: undefined,
   customerName: undefined,
+  customerPhone: undefined,
   paymentSplits: [],
   activePaymentMode: "cash",
 
@@ -126,7 +128,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     })),
 
   setDiscount: (discount: number) => set({ discount }),
-  setCustomer: (id, name) => set({ customerId: id, customerName: name }),
+  setCustomer: (id, name, phone) => set({ customerId: id, customerName: name, customerPhone: phone }),
 
   setActivePaymentMode: (mode: PaymentMode) => set({ activePaymentMode: mode }),
 
@@ -151,6 +153,7 @@ export const useCartStore = create<CartState>((set, get) => ({
       discount: 0,
       customerId: undefined,
       customerName: undefined,
+      customerPhone: undefined,
       paymentSplits: [],
       activePaymentMode: "cash",
     }),

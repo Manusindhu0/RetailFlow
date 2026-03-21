@@ -1,0 +1,127 @@
+/* =========================================================
+   RetailFlow — Print Styles
+   Supports two print modes:
+   1. .print-thermal  → 80mm thermal receipt (302px / ~3.15in)
+   2. .print-a4       → standard A4 paper
+   ========================================================= */
+
+@media print {
+  /* Hide everything by default */
+  body > *:not(#print-root) {
+    display: none !important;
+  }
+
+  #print-root {
+    display: block !important;
+    position: fixed;
+    inset: 0;
+    background: white;
+    color: black;
+    z-index: 99999;
+  }
+
+  /* ── Common receipt styles ── */
+  .receipt-wrapper {
+    font-family: 'Courier New', Courier, monospace;
+    color: #000;
+    background: #fff;
+    margin: 0 auto;
+    padding: 8px 6px;
+    font-size: 11px;
+    line-height: 1.5;
+  }
+
+  .receipt-wrapper .receipt-logo {
+    text-align: center;
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 2px;
+  }
+
+  .receipt-wrapper .receipt-shop-info {
+    text-align: center;
+    font-size: 9px;
+    margin-bottom: 8px;
+  }
+
+  .receipt-wrapper .receipt-divider {
+    border: none;
+    border-top: 1px dashed #000;
+    margin: 5px 0;
+  }
+
+  .receipt-wrapper .receipt-row {
+    display: flex;
+    justify-content: space-between;
+  }
+
+  .receipt-wrapper .receipt-row.total {
+    font-weight: bold;
+    font-size: 13px;
+    border-top: 1px solid #000;
+    margin-top: 4px;
+    padding-top: 4px;
+  }
+
+  .receipt-wrapper table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 10px;
+  }
+
+  .receipt-wrapper table th {
+    border-bottom: 1px dashed #000;
+    text-align: left;
+    padding: 2px 0;
+    font-weight: bold;
+  }
+
+  .receipt-wrapper table th:last-child,
+  .receipt-wrapper table td:last-child {
+    text-align: right;
+  }
+
+  .receipt-wrapper table td {
+    padding: 2px 0;
+    vertical-align: top;
+  }
+
+  .receipt-wrapper .receipt-footer {
+    text-align: center;
+    font-size: 9px;
+    margin-top: 8px;
+  }
+
+  /* ── Thermal mode (80mm paper) ── */
+  #print-root.mode-thermal .receipt-wrapper {
+    max-width: 302px;
+    width: 302px;
+  }
+
+  /* ── A4 mode ── */
+  #print-root.mode-a4 .receipt-wrapper {
+    max-width: 740px;
+    width: 740px;
+    font-size: 13px;
+    padding: 32px 48px;
+  }
+
+  #print-root.mode-a4 .receipt-wrapper .receipt-logo {
+    font-size: 24px;
+  }
+
+  #print-root.mode-a4 .receipt-wrapper table {
+    font-size: 13px;
+  }
+
+  #print-root.mode-a4 .receipt-wrapper table th,
+  #print-root.mode-a4 .receipt-wrapper table td {
+    padding: 6px 0;
+  }
+
+  /* hide browser chrome */
+  @page {
+    margin: 5mm;
+  }
+}

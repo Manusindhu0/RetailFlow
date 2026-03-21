@@ -72,46 +72,62 @@ export function POSPage() {
   // ── Keyboard Shortcuts ──────────────────────────────────────────────────
   useEffect(() => {
     const handler = (e: KeyboardEvent) => {
-      // Don't fire when typing in inputs
-      if ((e.target as HTMLElement).tagName === "INPUT") {
-        if (e.key === "Escape") {
-          cart.clearCart();
-          setQuery("");
-          setResults([]);
-        }
+      const tag = (e.target as HTMLElement).tagName;
+      const inInput = tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT";
+
+      // ESC always works, even inside inputs
+      if (e.key === "Escape") {
+        cart.clearCart();
+        setQuery("");
+        setResults([]);
         return;
       }
+
+      // F-keys work regardless of where focus is
       switch (e.key) {
         case "F1":
           e.preventDefault();
           cart.setActivePaymentMode("cash");
-          break;
+          return;
         case "F2":
           e.preventDefault();
           cart.setActivePaymentMode("upi");
-          break;
+          return;
         case "F3":
           e.preventDefault();
           cart.setActivePaymentMode("card");
-          break;
+          return;
         case "F4":
           e.preventDefault();
           cart.setActivePaymentMode("credit");
-          break;
-        case "Escape":
-          cart.clearCart();
-          break;
+          return;
         case "F5":
           e.preventDefault();
           handleNewBill();
-          break;
+          return;
+        case "F9": {
+          e.preventDefault();
+          const chargeBtn = document.getElementById("charge-btn") as HTMLButtonElement | null;
+          if (chargeBtn && !chargeBtn.disabled) chargeBtn.click();
+          return;
+        }
+        case "Enter":
+          if (e.ctrlKey) {
+            e.preventDefault();
+            const cBtn = document.getElementById("charge-btn") as HTMLButtonElement | null;
+            if (cBtn && !cBtn.disabled) cBtn.click();
+          }
+          return;
         default:
           break;
       }
+
+      // Non-F-key shortcuts: skip if user is typing in an input
+      if (inInput) return;
     };
     window.addEventListener("keydown", handler);
     return () => window.removeEventListener("keydown", handler);
-  }, [cart]);
+  }, [cart, handleNewBill]);
 
   const total = cart.total();
   const itemCount = cart.items.length;
@@ -221,7 +237,8 @@ export function POSPage() {
                 <kbd className="kbd-badge">F1</kbd>Cash
                 <kbd className="kbd-badge">F2</kbd>UPI
                 <kbd className="kbd-badge">F3</kbd>Card
-                <kbd className="kbd-badge">ESC</kbd>Clear
+                <kbd className="kbd-badge bg-primary/20 text-primary border-primary/30">F9</kbd>Charge
+                <kbd className="kbd-badge ml-2">ESC</kbd>Clear
               </div>
             </div>
           </div>

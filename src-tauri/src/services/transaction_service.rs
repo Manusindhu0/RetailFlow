@@ -74,18 +74,29 @@ impl TransactionService {
 
         let round_off = input.round_off.unwrap_or(0.0);
         let total_amount = subtotal - total_discount + total_tax + round_off;
-        let paid_amount: f64 = input.payments.iter().map(|p| p.amount).sum();
+        
+        // Exclude credit (Udhar) from actual paid_amount so balance_due is correctly calculated
+        let paid_amount: f64 = input.payments.iter()
+            .filter(|p| p.payment_mode != "credit")
+            .map(|p| p.amount)
+            .sum();
+            
         let change_amount = (paid_amount - total_amount).max(0.0);
         let balance_due = (total_amount - paid_amount).max(0.0);
 
         // ── Check credit limit if paying by credit ──
-        if input.payments.iter().any(|p| p.payment_mode == "credit") {
+        if input.payments.iter().any(|p| p.payment_mode == "credit") || balance_due > 0.0 {
+            if customer_id == 1 {
+                return Err(AppError::Validation("Walk-in customers cannot have outstanding balances (Udhar). Please select a registered customer.".into()));
+            }
             let (credit_limit, credit_balance): (f64, f64) = conn.query_row(
                 "SELECT credit_limit, credit_balance FROM customers WHERE id = ?1",
                 [customer_id],
                 |r| Ok((r.get(0)?, r.get(1)?)),
             ).unwrap_or((0.0, 0.0));
-            if credit_balance + balance_due > credit_limit {
+            
+            // Treat credit limit of 0.0 as "Unlimited"
+            if credit_limit > 0.0 && credit_balance + balance_due > credit_limit {
                 let cust_name: String = conn.query_row(
                     "SELECT name FROM customers WHERE id = ?1", [customer_id], |r| r.get(0)
                 ).unwrap_or_default();

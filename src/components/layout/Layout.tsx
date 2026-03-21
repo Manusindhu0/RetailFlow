@@ -1,16 +1,17 @@
 import { Outlet, NavLink } from "react-router-dom";
 import {
   ShoppingCart, Package, Users, BarChart3,
-  Settings, Zap, Bell
+  Settings, Zap, Bell, Receipt
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const navItems = [
-  { to: "/pos", icon: ShoppingCart, label: "POS Billing" },
-  { to: "/inventory", icon: Package, label: "Inventory" },
-  { to: "/customers", icon: Users, label: "Customers" },
-  { to: "/reports", icon: BarChart3, label: "Reports" },
-  { to: "/settings", icon: Settings, label: "Settings" },
+  { to: "/pos",          icon: ShoppingCart, label: "POS Billing" },
+  { to: "/inventory",    icon: Package,      label: "Inventory" },
+  { to: "/customers",    icon: Users,        label: "Customers" },
+  { to: "/transactions", icon: Receipt,      label: "All Bills" },
+  { to: "/reports",      icon: BarChart3,    label: "Reports" },
+  { to: "/settings",     icon: Settings,     label: "Settings" },
 ];
 
 export function Layout() {

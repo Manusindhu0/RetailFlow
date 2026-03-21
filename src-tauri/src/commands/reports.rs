@@ -3,7 +3,8 @@ use crate::db::connection::DbState;
 use crate::services::report_service::{
     ReportService, SalesReportRow, TopProduct, GstSummaryRow, ProfitRow, CategorySalesRow,
 };
-use crate::services::payment_service::{PaymentService, PaymentSummary, DailyPaymentBreakdown};
+use crate::services::payment_service::PaymentService;
+use crate::models::payment::{PaymentSummary, DailyPaymentBreakdown};
 
 #[tauri::command]
 pub fn get_daily_sales(

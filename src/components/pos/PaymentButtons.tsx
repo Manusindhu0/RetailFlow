@@ -27,7 +27,7 @@ const MODES: { mode: PaymentMode; label: string; icon: React.ReactNode; key: str
   },
   {
     mode: "credit",
-    label: "Credit",
+    label: "Udhar",
     icon: <BookUser className="w-5 h-5" />,
     key: "F4",
     color: "hover:border-amber-500/60 hover:bg-amber-500/10 data-[active=true]:border-amber-500 data-[active=true]:bg-amber-500/15 data-[active=true]:text-amber-400",

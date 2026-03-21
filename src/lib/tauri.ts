@@ -1,4 +1,28 @@
-import { invoke } from "@tauri-apps/api/core";
+import { invoke as _tauriInvoke } from "@tauri-apps/api/core";
+
+// Safe wrapper — returns empty mock data when Tauri is not available (plain browser preview)
+const MOCK: Record<string, unknown> = {
+  get_products:          { items: [], total: 0, page: 1, page_size: 20, total_pages: 0 },
+  get_categories:        [],
+  get_low_stock_products:[],
+  get_customers:         { items: [], total: 0, page: 1, page_size: 20, total_pages: 0 },
+  get_customer_ledger:   [],
+  get_transactions:      { items: [], total: 0, page: 1, page_size: 20, total_pages: 0 },
+  get_today_summary:     { total_sales: 0, invoice_count: 0, avg_order: 0 },
+  get_daily_sales:       [],
+  get_top_products:      [],
+  get_payment_summary:   [],
+  get_all_settings:      {},
+  list_backups:          [],
+};
+
+function invoke<T>(cmd: string, args?: Record<string, unknown>): Promise<T> {
+  if (typeof _tauriInvoke !== "function") {
+    console.warn(`[Tauri mock] "${cmd}" — Tauri unavailable, returning mock data.`);
+    return Promise.resolve((MOCK[cmd] ?? null) as T);
+  }
+  return _tauriInvoke<T>(cmd, args);
+}
 import type {
   Product, ProductRow, ProductListResponse, Category,
   Customer, CustomerListResponse, LedgerEntry,
@@ -43,6 +67,8 @@ export const getTransactionById = (id: number) =>
   invoke<Transaction>("get_transaction_by_id", { id });
 export const getTransactions = (page?: number, pageSize?: number) =>
   invoke<TransactionListResponse>("get_transactions", { page, pageSize });
+export const collectPayment = (transactionId: number, amount: number, paymentMode: string) =>
+  invoke<Transaction>("collect_payment", { transactionId, amount, paymentMode });
 export const getTodaySummary = () =>
   invoke<TodaySummary>("get_today_summary");
 
