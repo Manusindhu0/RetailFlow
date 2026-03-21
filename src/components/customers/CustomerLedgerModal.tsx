@@ -218,7 +218,7 @@ export function CustomerLedgerModal({ customer, onClose }: Props) {
                   </div>
                   <div className="ml-auto text-right">
                     <p className="text-sm font-bold text-primary">{formatCurrency(txn.total_amount)}</p>
-                    <p className="text-xs text-muted-foreground">{txn.items?.length ?? 0} items</p>
+                     <p className="text-xs text-muted-foreground">Bill #{txn.invoice_number}</p>
                   </div>
                 </div>
               ))}

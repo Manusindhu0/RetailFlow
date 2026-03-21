@@ -21,9 +21,9 @@ export function StockAdjustmentModal({ product, onClose }: Props) {
     mutationFn: () =>
       adjustInventory({
         product_id: product.id,
-        adjustment_type: adjType,
-        quantity: parseInt(qty),
-        reason: reason || undefined,
+        adjustment_type: adjType === "add" ? "purchase" : adjType === "remove" ? "damage" : "count",
+        quantity_change: parseInt(qty),
+        notes: reason || undefined,
       }),
     onSuccess: () => {
       qc.invalidateQueries({ queryKey: ["products"] });

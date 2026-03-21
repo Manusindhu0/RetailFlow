@@ -191,8 +191,8 @@ export function ReportsPage() {
             ) : (
               <div className="space-y-2.5">
                 {topProducts.map((p, i) => {
-                  const maxQty = topProducts[0].total_quantity;
-                  const pct = (p.total_quantity / maxQty) * 100;
+                  const maxQty = topProducts[0].total_qty;
+                  const pct = (p.total_qty / maxQty) * 100;
                   return (
                     <div key={i} className="space-y-1">
                       <div className="flex items-center justify-between">
@@ -204,7 +204,7 @@ export function ReportsPage() {
                         </div>
                         <div className="text-right flex-shrink-0">
                           <span className="text-xs font-bold text-primary">{formatCurrency(p.total_revenue)}</span>
-                          <span className="text-xs text-muted-foreground ml-2">×{p.total_quantity}</span>
+                           <span className="text-xs text-muted-foreground ml-2">×{p.total_qty}</span>
                         </div>
                       </div>
                       <div className="h-1.5 bg-secondary rounded-full overflow-hidden">

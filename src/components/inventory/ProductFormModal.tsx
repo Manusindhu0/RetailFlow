@@ -10,7 +10,7 @@ interface Props {
 }
 
 const EMPTY = {
-  name: "", barcode: "", sku: "", category_id: "",
+  name: "", barcode: "", category_id: "",
   cost_price: "", sale_price: "", mrp: "", gst_rate: "0",
   stock_quantity: "0", low_stock_alert: "5", unit: "pcs",
   batch_number: "", expiry_date: "", description: "",
@@ -44,7 +44,6 @@ export function ProductFormModal({ product, onClose }: Props) {
       setForm({
         name: product.name ?? "",
         barcode: product.barcode ?? "",
-        sku: product.sku ?? "",
         category_id: String(product.category_id ?? ""),
         cost_price: String(product.cost_price ?? ""),
         sale_price: String(product.sale_price ?? ""),
@@ -70,7 +69,6 @@ export function ProductFormModal({ product, onClose }: Props) {
         ...(isEdit ? { id: product!.id } : {}),
         name: form.name,
         barcode: form.barcode || null,
-        sku: form.sku || null,
         category_id: form.category_id ? int(form.category_id) : null,
         cost_price: num(form.cost_price) ?? 0,
         sale_price: num(form.sale_price) ?? 0,

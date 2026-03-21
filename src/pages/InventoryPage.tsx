@@ -161,25 +161,25 @@ export function InventoryPage() {
                     <td className="px-4 py-3 text-right font-bold text-primary">{formatCurrency(p.sale_price)}</td>
                     <td className="px-4 py-3 text-right">
                       <button
-                        onClick={() => setAdjustProduct(p)}
+                        onClick={() => setAdjustProduct(p as unknown as Product)}
                         className="font-bold hover:text-primary transition-colors cursor-pointer"
                         title="Click to adjust stock"
                       >
                         {p.stock_quantity} <span className="text-xs text-muted-foreground font-normal">{p.unit}</span>
                       </button>
                     </td>
-                    <td className="px-4 py-3 text-center">{stockBadge(p)}</td>
+                    <td className="px-4 py-3 text-center">{stockBadge(p as unknown as Product)}</td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-1 justify-end">
                         <button
-                          onClick={() => setAdjustProduct(p)}
+                          onClick={() => setAdjustProduct(p as unknown as Product)}
                           className="w-7 h-7 rounded-lg hover:bg-primary/10 hover:text-primary flex items-center justify-center transition-colors"
                           title="Adjust stock"
                         >
                           <BarChart2 className="w-3.5 h-3.5" />
                         </button>
                         <button
-                          onClick={() => setEditProduct(p)}
+                          onClick={() => setEditProduct(p as unknown as Product)}
                           className="w-7 h-7 rounded-lg hover:bg-secondary flex items-center justify-center transition-colors"
                           title="Edit"
                         >
